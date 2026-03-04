@@ -23,6 +23,9 @@ app.UseStaticFiles();
 app.UseRouting();
 
 app.UseAuthorization();
+app.MapControllerRoute(
+    name: "search",
+    pattern: "{controller}/{action}/{Critere?}");
 
 app.MapControllerRoute(
     name: "default",

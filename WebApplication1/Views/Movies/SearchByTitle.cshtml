@@ -1,0 +1,26 @@
+﻿@model IEnumerable<WebApplication1.Models.Cinema.Movie>
+@{ ViewData["Title"] = "Recherche par Titre"; }
+<h1>Recherche par Titre</h1>
+
+@* Formulaire de recherche (Question 3) *@
+<form asp-action="SearchByTitle" method="get">
+    <p>
+        Title: <input type="text" name="Critere" value="@Context.Request.Query["Critere"]" />
+        <input type="submit" value="Rechercher" />
+    </p>
+</form>
+
+<table class="table">
+    <thead>
+        <tr><th>Titre</th><th>Genre</th></tr>
+    </thead>
+    <tbody>
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>@item.Title</td>
+            <td>@item.Genre</td>
+        </tr>
+    }
+    </tbody>
+</table>

@@ -1,0 +1,38 @@
+﻿@model IEnumerable<WebApplication1.Models.Cinema.ProdMovie>
+@{ ViewData["Title"] = "Producteurs et leurs Films"; }
+
+<h1>Producteurs et leurs Films</h1>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Producteur</th>
+            <th>Nationalité</th>
+            <th>Titre Film</th>
+            <th>Genre</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody>
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+            <a asp-action="MyMovies" asp-route-id="@item.pId">
+                @item.pName
+            </a>
+        </td>
+
+            <td>@item.pNat</td>
+            <td>@item.mTitle</td>
+            <td>@item.mGenre</td>
+            <td>
+                <a asp-action="MyMovies" asp-route-id="@item.pId" 
+                   class="btn btn-sm btn-info">
+                    Voir ses films
+                </a>
+            </td>
+        </tr>
+    }
+    </tbody>
+</table>

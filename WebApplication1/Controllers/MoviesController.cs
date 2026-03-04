@@ -114,5 +114,53 @@ public class MoviesController : Controller
                             .ToList();
         return View(movies);
     }
+    public IActionResult MoviesAndTheirProds_UsingModel()
+    {
+        var result = (from m in _context.Movies
+                      join p in _context.Producers
+                      on m.ProducerId equals p.Id
+                      select new ProdMovie
+                      {
+                          mTitle = m.Title,
+                          mGenre = m.Genre,
+                          pName = p.Name,
+                          pNat = p.Nationality
+                      }).ToList();
+        return View(result);
+    }
+    public IActionResult SearchByTitle(string Critere)
+    {
+        var movies = (from m in _context.Movies
+                      where m.Title.Contains(Critere ?? "")
+                      select m).ToList();
+        return View(movies);
+    }
 
+    public IActionResult SearchByGenre(string Critere)
+    {
+        var movies = (from m in _context.Movies
+                      where m.Genre.Contains(Critere ?? "")
+                      select m).ToList();
+        return View(movies);
+    }
+
+    public IActionResult SearchBy2(string genre, string title)
+    {
+        var genres = _context.Movies
+                            .Select(m => m.Genre)
+                            .Distinct()
+                            .ToList();
+        genres.Insert(0, "All");
+        ViewBag.Genres = new SelectList(genres);
+
+        var movies = _context.Movies.AsQueryable();
+
+        if (!string.IsNullOrEmpty(genre) && genre != "All")
+            movies = movies.Where(m => m.Genre.Contains(genre));
+
+        if (!string.IsNullOrEmpty(title))
+            movies = movies.Where(m => m.Title.Contains(title));
+
+        return View(movies.ToList());
+    }
 }
